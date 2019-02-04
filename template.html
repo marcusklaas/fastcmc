@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Fast Crypto Market Caps</title>
+    <style>
+        body {
+            max-width: 1000px;
+            margin: auto;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        tbody tr:nth-child(2n) td {
+            background-color: #eee;
+        }
+
+        footer {
+            margin: 30px 0;
+        }
+
+        td.numeric {
+            text-align: end;
+        }
+
+        td.down {
+            color: #900;
+        }
+
+        td.up {
+            color: #0a0;
+        }
+
+        ul {
+            /* list-style-type: none; */
+        }
+    </style>
+</head>
+<body>
+    <h1>Fast Cryptocurrency Market Capitalizations</h1>
+    <ul>
+        <li>Total market cap: <b>${{ global.data.quote.USD.total_market_cap | number_format(0) }}</b></li>
+        <li>24h volume: ${{ global.data.quote.USD.total_volume_24h | number_format(0) }}</li>
+        <li>BTC dominance: {{ global.data.btc_dominance }}%</li>
+    </ul>
+    <h2>Top 100 cryptocurrencies by marketcap</h2>
+    <table>
+        <thead>
+            <tr><th>#</th><th>name</th><th>market cap</th><th>price</th><th>volume</th><th>circulating supply</th><th>change (24h)</th></tr>
+        </thead>
+        <tbody>
+            {% for coin in coins.data %}
+            {% set change_class = coin.quote.USD.percent_change_24h > 0 ? 'up' : 'down' %}
+            <tr>
+                <td class="numeric">{{ coin.cmc_rank }}</td>
+                <td>{{ coin.name }}</td>
+                <td class="numeric">${{ coin.quote.USD.market_cap | number_format(0) }}</td>
+                <td class="numeric">${{ coin.quote.USD.price | number_format(2) }}</td>
+                <td class="numeric">${{ coin.quote.USD.volume_24h | number_format(0) }}</td>
+                <td class="numeric">{{ coin.circulating_supply | number_format(0) }} {{ coin.symbol }}</td>
+                <td class="{{ change_class }} numeric">{{ coin.quote.USD.percent_change_24h | number_format(2) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer>
+        This page is a proof-of-concept for a speedier alternative to <a href="https://coinmarketcap.com">coinmarketcap.com</a>.
+    </footer>
+</body>
+</html>
