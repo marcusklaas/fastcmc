@@ -56,4 +56,4 @@ $coinData = performApiCall(
 $loader = new Twig_Loader_Filesystem('./');
 $twig = new Twig_Environment($loader, ['cache' => './cache']);
 $template = $twig->load('template.html');
-echo $template->render(['coins' => json_decode($coinData), 'global' => json_decode($globalData)]);
+echo $template->render(['coins' => $coinData, 'global' => $globalData]);

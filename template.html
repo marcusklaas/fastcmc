@@ -66,7 +66,7 @@
             {% set change_class = coin.quote.USD.percent_change_24h > 0 ? 'up' : 'down' %}
             <tr>
                 <td class="numeric">{{ coin.cmc_rank }}</td>
-                <td>{{ coin.name }}</td>
+                <td><a href="https://coinmarketcap.com/currencies/{{ coin.slug }}">{{ coin.name }}</a></td>
                 <td class="numeric">${{ coin.quote.USD.market_cap | number_format(0) }}</td>
                 <td class="numeric">${{ coin.quote.USD.price | number_format(2) }}</td>
                 <td class="numeric">${{ coin.quote.USD.volume_24h | number_format(0) }}</td>
